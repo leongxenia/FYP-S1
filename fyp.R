@@ -17,7 +17,6 @@ df <- read.csv("~/Downloads/ab_testing.csv")
 df$Group      <- as.factor(df$Group)
 df$Conversion <- as.factor(df$Conversion)
 df$Location   <- as.factor(df$Location)
-a
 ############################################################
 ## 2. Exploratory visualisations and summaries
 ############################################################
@@ -43,18 +42,13 @@ p2 <- ggplot(df, aes(x = Time.Spent)) +
   )
 
 ### 2.3 Conversion distribution by group
-conv_counts <- as.data.frame(table(df$Group, df$Conversion))
-colnames(conv_counts) <- c("Group", "Conversion", "Count")
-
-conv_counts_clean <- conv_counts |>
-  dplyr::filter(!is.na(Conversion))
 
 p3 <- ggplot(conv_counts, aes(x = "", y = Count, fill = Conversion)) +
-  geom_bar(stat = "identity", width = 1, color = "black") +
-  coord_polar("y", start = 0) +
+  geom_col(width = 1, color = "black") +
+  coord_polar(theta = "y") +
   facet_wrap(~ Group) +
   labs(title = "Conversion Distribution by Group") +
-  scale_fill_manual(values = c("No" = "grey", "Yes" = "cyan"))
+  scale_fill_manual(values = c("No" = "grey", "Yes" = "cyan")) 
 
 ### 2.4 Location distribution by group
 p4 <- ggplot(df, aes(x = Location)) +
